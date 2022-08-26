@@ -1,4 +1,4 @@
-import { ComponentMeta } from '@storybook/react';
+import { ComponentMeta, ComponentStory } from '@storybook/react';
 import SidebarLayout, { ISidebarLayout } from './SidebarLayout';
 import { mockSidebarLayoutProps } from './SidebarLayout.mocks';
 
