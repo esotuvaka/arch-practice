@@ -1,5 +1,10 @@
 {
-  "extends": ["next", "next/core-web-vitals", "eslint:recommended"],
+  "extends": [
+    "plugin:storybook/recommended",
+    "next",
+    "next/core-web-vitals",
+    "eslint:recommended"
+  ],
   "globals": {
     "React": "readonly"
   },
@@ -8,5 +13,14 @@
     // ESLint rules. 0 = off, 1 = warning, 2 = error
     // Example gives a warning for unused variables that are prefixed with ^_
     // Const ^_test for example
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs"],
+      "rules": {
+        //example of overriding a rule
+        "storybook/hierarchy-separator": "error"
+      }
+    }
+  ]
 }
