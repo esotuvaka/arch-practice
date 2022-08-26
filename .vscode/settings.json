@@ -1,0 +1,10 @@
+// project specific settings that can overwrite local settings on a machine
+// committed to a repo so other devs in the project get the same settings
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  }
+}
