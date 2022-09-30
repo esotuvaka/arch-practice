@@ -5,12 +5,10 @@ import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
 import SidebarLayout from '../components/layouts/sidebar/SidebarLayout';
 import { NextPageWithLayout } from './page';
 
-import styles from '../styles/Home.module.css';
-
 const Home: NextPageWithLayout = () => {
   return (
-    <section className={styles.main}>
-      <h1 className={styles.title}>
+    <section className="bg-gradient-to-r from-cyan-500 to-blue-500">
+      <h1>
         Welcome to <a href="https://nextjs.org">Next.js!</a>
       </h1>
       <CatCard {...mockCatCardProps.base} />
