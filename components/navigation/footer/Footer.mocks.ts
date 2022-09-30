@@ -1,8 +1,6 @@
 import { IFooter } from './Footer';
 
-const base: IFooter = {
-  sampleTextProp: 'Hello World!',
-};
+const base: IFooter = {};
 
 // Footer allows rapid prototyping of components, with alt versions, etc.
 // const alt: IFooter = {
