@@ -1,8 +1,6 @@
 import { ISearch } from './Search';
 
-const base: ISearch = {
-  sampleTextProp: 'Hello World!',
-};
+const base: ISearch = {};
 
 // Search allows rapid prototyping of components, with alt versions, etc.
 // const alt: ISearch = {
