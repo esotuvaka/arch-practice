@@ -6,26 +6,23 @@ const Header: React.FC<IHeader> = ({ className, ...headerProps }) => {
   return (
     <header
       {...headerProps}
-      className={`w-full flex flex-row items-center justify-between ${className}`}
+      className={`h-[10vh] bg-white fixed z-50 top-0 flex w-screen mx-auto flex-row items-center ${className}`}
     >
-      <div className="space-x-5 m-5">
-        <Link href="/">
-          <a className="hover:underline">About</a>
-        </Link>
-        <Link href="/">
-          <a className="hover:underline">Store</a>
-        </Link>
-      </div>
-      <div className="space-x-5 m-5">
-        <Link href="/">
-          <a className="hover:underline hidden sm:inline">Gmail</a>
-        </Link>
-        <Link href="/">
-          <a className="hover:underline hidden sm:inline">Images</a>
-        </Link>
-        <button className="border-1 p-2 px-4 sm:px-6 bg-blue-500 rounded text-white">
-          Sign In
-        </button>
+      <div className="w-4/5 flex mx-auto justify-between">
+        <div className="space-x-5 m-5">
+          <Link href="/">
+            <a className="hover:underline text-3xl">Home</a>
+          </Link>
+        </div>
+
+        <div className="space-x-5 m-5">
+          <Link href="/">
+            <a className="hover:underline hidden sm:inline text-3xl">Images</a>
+          </Link>
+          <button className="border-1 p-2 px-4 sm:px-6 text-3xl bg-blue-500 hover:bg-blue-700 transition-all duration-300 rounded text-white">
+            Sign In
+          </button>
+        </div>
       </div>
     </header>
   );

@@ -1,53 +1,77 @@
-import { GetServerSideProps } from 'next';
+import Image from 'next/image';
+import { Configuration, OpenAIApi } from 'openai';
 import PrimaryLayout from '../components/layouts/primary/PrimaryLayout';
-import SearchResult from '../components/utility/search-result/SearchResult';
-import { ISearchData } from '../lib/search/types';
-import { IApiSearchResponseData } from './api/search';
-import { NextPageWithLayout } from './page';
-export interface IResults {
-  searchResults: ISearchData[];
-}
 
-export const getServerSideProps: GetServerSideProps<IResults> = async ({
-  query,
-}) => {
-  let searchResults: IApiSearchResponseData = [];
-  const searchTerm = query.search;
+type TQuery = {
+  query: { search: string; quality: string; images: number };
+};
 
-  if (searchTerm && searchTerm.length > 0) {
-    const response = await fetch(`http://localhost:3000/api/search`, {
-      body: JSON.stringify({ searchTerm }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    });
+type TResults = {
+  imageUrls: { url: string }[];
+  input: string;
+};
 
-    searchResults = await response.json();
+export const getServerSideProps = async ({ query }: TQuery) => {
+  let imageUrls = null;
+
+  const input = query.search;
+  const images = query.images;
+
+  const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+
+  const openai = new OpenAIApi(configuration);
+
+  if (input && input.length > 0) {
+    try {
+      const response = await openai.createImage({
+        prompt: input,
+        n: 3,
+        size: '512x512',
+      });
+
+      const urls = response.data.data;
+
+      imageUrls = urls;
+    } catch (error: unknown) {
+      console.log('ERROR; UNABLE TO GENERATE');
+    }
+  } else {
+    console.log('UNABLE TO GENERATE');
   }
 
   return {
     props: {
-      // Will be passed to the page component as props
-      searchResults,
+      imageUrls,
+      input,
     },
   };
 };
 
-const Results: NextPageWithLayout<IResults> = ({ searchResults }) => {
-  const hasResults = searchResults.length > 0;
-
+const Results = ({ imageUrls, input }: TResults) => {
+  console.log(input);
   return (
     <>
-      <section className="flex flex-col items-center gap-y-5">
-        {hasResults ? (
-          <div className={`flex flex-col space-y-8`}>
-            {searchResults.map((result, idx) => {
-              return <SearchResult key={idx} {...result} />;
-            })}
+      <section className="flex flex-col pt-12 mt-[10vh] justify-center w-[100vw] items-center gap-y-5">
+        {imageUrls ? (
+          <div className="p-8 rounded-lg w-4/5 mx-auto grid grid-cols-2">
+            <div>
+              {imageUrls.map((object, index) => {
+                return <ImageSection key={index} imageUrl={object.url} />;
+              })}
+            </div>
+            <aside className="pl-8">
+              <h1 className="text-7xl">{input}</h1>
+              <p>URLs expire after an hour!</p>
+            </aside>
           </div>
         ) : (
-          <p>No results found.</p>
+          <p>
+            Error. Your request was rejected as a result of our safety system.
+            Your prompt may contain text that is not allowed, or OpenAI services
+            may be down.
+          </p>
         )}
       </section>
     </>
@@ -56,6 +80,31 @@ const Results: NextPageWithLayout<IResults> = ({ searchResults }) => {
 
 export default Results;
 
-Results.getLayout = (page) => {
-  return <PrimaryLayout justify="items-start">{page}</PrimaryLayout>;
+type TImageSection = {
+  imageUrl: string;
+};
+
+const ImageSection = ({ imageUrl }: TImageSection) => {
+  return (
+    <div className="flex justify-center">
+      <div className="drop-shadow-2xl ">
+        <Image
+          src={imageUrl}
+          alt="ai-image"
+          height="512"
+          width="512"
+          priority
+        />
+      </div>
+      <div className="flex flex-col ml-4">
+        <p>Download</p>
+        <p>Remix</p>
+        <p>Share</p>
+      </div>
+    </div>
+  );
+};
+
+Results.getLayout = (page: any) => {
+  return <PrimaryLayout>{page}</PrimaryLayout>;
 };

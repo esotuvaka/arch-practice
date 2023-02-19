@@ -4,7 +4,7 @@ const Footer: React.FC<IFooter> = ({ className, ...footerProps }) => {
   return (
     <footer
       {...footerProps}
-      className={`w-full p-5 bg-slate-100 text-slate-500 ${className}`}
+      className={`w-full fixed bottom-0 p-5 bg-slate-100 text-slate-500 ${className}`}
     >
       <p>USA</p>
     </footer>

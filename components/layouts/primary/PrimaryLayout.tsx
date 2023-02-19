@@ -5,21 +5,19 @@ import Header from '../../navigation/header/Header';
 
 export interface IPrimaryLayout {
   children?: React.ReactNode;
-  justify?: 'items-center' | 'items-start';
 }
 
-const PrimaryLayout: React.FC<IPrimaryLayout> = ({
-  children,
-  justify = 'items-center',
-}) => {
+const PrimaryLayout: React.FC<IPrimaryLayout> = ({ children }) => {
   return (
     <>
       <Head>
         <title>Fullstack Architecture Practice</title>
       </Head>
-      <div className={`min-h-screen flex flex-col ${justify}`}>
+      <div
+        className={`min-h-screen overflow-x-hidden flex flex-col justify-center items-center`}
+      >
         <Header />
-        <main className="px-5">{children}</main>
+        <main className="">{children}</main>
         <div className="m-auto" />
         <Footer />
       </div>
